@@ -2,19 +2,19 @@ import math
 
 # Multiple result groups, independent results
 # probability of a try is constant
-def multinomial(probabilities, results):
-    n = sum(results)
+def multinomial(lista_probabilidades, intentos):
+    cantidad_intentos = sum(intentos)
 
     fact_mult = 1
-    for result in results:
-        fact_mult *= math.factorial(result)
+    for intento in intentos:
+        fact_mult *= math.factorial(intento)
 
     right = 1
-    for x, p in zip(results,probabilities):
+    for x, p in zip(intentos,lista_probabilidades):
         right *= math.pow(p,x)
-    prob_result = math.factorial(n)/fact_mult * right
+    prob_result = math.factorial(cantidad_intentos)/fact_mult * right
 
-    print(prob_result)
+    print("El resultado de la distribucion multinomial es: {:.4f}".format(prob_result))
 
 
 # Use when there are multiple gruops of options
@@ -33,7 +33,7 @@ def hipergeometrica(n_x_list):
 
     prob_result = numerator/math.comb(N,n)
 
-    print(prob_result)
+    print("El resultado de la distribucion hipergeometrica es: {:.4f}".format(prob_result))
 
 
 
@@ -44,7 +44,7 @@ def geometrica(intentos, probability):
 
     prob_result = math.pow(q,(intentos-1))*probability
 
-    print(prob_result)
+    print("El resultado de la distribucion geometrica es: {:.4f}".format(prob_result))
 
 
 def poisson(mean, repetitions):
@@ -64,13 +64,30 @@ def poisson_helper(mean, repetitions, amount):
         for i in range(repetitions+1):
             prob_result += poisson(mean, i)
 
-    print(prob_result)
+    print("El resultado de la distribucion de Poisson es: {:.4f}".format(prob_result))
 
 
-# multinomial([.60,.30,.10], [15,10,5])
-# hipergeometrica([(9,4),(7,2),(4,1),(3,1)])
-# geometrica(4,1/6)
-# poisson_helper(4, 3, 'at least')
+##### PARA USO DE MULTINOMIAL #####
+lista_probabilidades = [0.13,0.13,0.14,0.16,0.20,0.24]
+lista_intentos = [2,2,2,2,2,2]
+
+multinomial(lista_probabilidades, lista_intentos)
+
+##### PARA USO DE HIPERGEOMETRICA #####
+lista_N_y_X = [(5,3),(5,0)]
+hipergeometrica(lista_N_y_X)
+
+##### PARA USO DE GEOMETRICA #####
+probabilidad = 1/6
+repeticiones = 3
+geometrica(repeticiones,probabilidad)
+
+##### PARA USO DE POISSON #####
+media = 4
+num_de_veces_evento = 3
+consideraciones = 'at least'
+poisson_helper(media, num_de_veces_evento, consideraciones)
+
 
 # En los casos donde el número de intentos n sea grande y la probabilidad de éxito p sea pequeña,
 #  la distribución de Poisson puede ser utilizada para aproximar la distribución binomial. 
